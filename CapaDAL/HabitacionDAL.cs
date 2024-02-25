@@ -10,23 +10,26 @@ using System.Threading.Tasks;
 namespace CapaDAL
 {
     public class HabitacionDAL
-    {
+    { 
 
 
         public static async Task<int> CreateHabitacion(HabitacionEN habitacion)
         {
+            int result = 0;
             using (var dbContext = new ContextDB())
             {
                 dbContext.Add(habitacion);
-                return await dbContext.SaveChangesAsync();
+                 await dbContext.SaveChangesAsync();
             }
+            return result;
         }
 
         public static async Task<int> UpdateHabitacion(HabitacionEN habitacion)
         {
+            int result = 0;
             using (var dbContext = new ContextDB())
             {
-                var HabitacionDB = await dbContext.Habitacion.FirstOrDefaultAsync(h => h.Id == habitacion.Id);
+                var HabitacionDB = await dbContext.Habitacion.Include(h => h.state).Include(t => t.TipoDeHabitacion).FirstOrDefaultAsync(h => h.Id == habitacion.Id);
                 if (HabitacionDB != null)
                 {
                     HabitacionDB.NumeroDeHabitacion = habitacion.NumeroDeHabitacion;
@@ -41,32 +44,37 @@ namespace CapaDAL
 
         public static async Task<int> DeleteHabitacion(HabitacionEN habitacion)
         {
+            int result = 0;
             using (var dbContext = new ContextDB())
             {
-                var HabitacionDB = await dbContext.Habitacion.FirstOrDefaultAsync(h => h.Id == habitacion.Id);
+                var HabitacionDB = await dbContext.Habitacion.Include(h => h.state).Include(t => t.TipoDeHabitacion).FirstOrDefaultAsync(h => h.Id == habitacion.Id);
                 if (HabitacionDB != null)
                 {
                     dbContext.Remove(HabitacionDB);
                     return await dbContext.SaveChangesAsync();
                 }
             }
-            return 0;
+            return result;
         }
 
         public static async Task<HabitacionEN> GetHabitacionAsync(HabitacionEN habitacion)
         {
+            var HabitacionDB = new HabitacionEN();
             using (var dbContext = new ContextDB())
             {
-                return await dbContext.Habitacion.FirstOrDefaultAsync(h => h.Id == habitacion.Id);
+                HabitacionDB = await dbContext.Habitacion.Include(h => h.state).Include(t => t.TipoDeHabitacion).FirstOrDefaultAsync(h => h.Id == habitacion.Id);
             }
+            return HabitacionDB;
         }
 
-        public static async Task<List<HabitacionEN>> GetHabitacionENAsync()
+        public static async Task<List<HabitacionEN>> GetAllAsync()
         {
+            var categories = new List<HabitacionEN>();
             using (var dbContext = new ContextDB())
             {
-                return await dbContext.Habitacion.ToListAsync();
+                categories = await dbContext.Habitacion.Include(h => h.state).Include(t => t.TipoDeHabitacion).ToListAsync();
             }
+            return categories;
         }
 
         internal static IQueryable<HabitacionEN> QuerySelect(IQueryable<HabitacionEN> query, HabitacionEN habitacion)
@@ -88,13 +96,14 @@ namespace CapaDAL
             var HabitacionDB = new List<HabitacionEN>();
             using (var dbContext = new ContextDB())
             {
-                var select = dbContext.Habitacion.AsQueryable();
+                var select = dbContext.Habitacion.Include(h => h.state).Include(t => t.TipoDeHabitacion).AsQueryable();
                 select = QuerySelect(select, habitacion);
                 HabitacionDB = await select.ToListAsync();
             }
             return HabitacionDB;
         }
     }
+
 }
 
 

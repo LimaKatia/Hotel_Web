@@ -2,6 +2,7 @@
 using CapaDAL;
 using CapaEN;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace UserInterface.Controllers
 {
@@ -22,7 +23,7 @@ namespace UserInterface.Controllers
             return View(habitacion);
         }
 
-        public async Task<IActionResult> Datils(Byte id)
+        public async Task<IActionResult> Datils(byte id)
         {
             var Habitacion = await HabitacionBL.GetHabitacionAsync(new HabitacionEN { Id = id});
             return View(Habitacion);
@@ -32,9 +33,9 @@ namespace UserInterface.Controllers
             ViewBag.Error = "";
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-
         public async Task<ActionResult> Create(HabitacionEN Habitacion)
         {
             try
@@ -51,7 +52,7 @@ namespace UserInterface.Controllers
         }
 
 
-        public async Task<IActionResult> Edit(Byte id)
+        public async Task<IActionResult> Edit(byte id)
         {
             var Habitacion = await HabitacionBL.GetHabitacionAsync(new HabitacionEN { Id = id });
             ViewBag.Error = "";
@@ -61,7 +62,7 @@ namespace UserInterface.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public async Task<IActionResult> Edit(Byte id, HabitacionEN Habitacion)
+        public async Task<IActionResult> Edit(byte id, HabitacionEN Habitacion)
         {
             try
             {
@@ -74,7 +75,7 @@ namespace UserInterface.Controllers
                 return View(Habitacion);
             }
         }
-        public async Task<IActionResult> Delete(Byte id)
+        public async Task<IActionResult> Delete(byte id)
         {
             var Habitacion = await HabitacionBL.GetHabitacionAsync(new HabitacionEN { Id = id });
             ViewBag.Error = "";
@@ -83,7 +84,7 @@ namespace UserInterface.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public async Task<IActionResult> Delete(Byte id, HabitacionEN Habitacion)
+        public async Task<IActionResult> Delete(byte id, HabitacionEN Habitacion)
         {
             try
             {
