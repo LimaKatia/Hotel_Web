@@ -30,9 +30,9 @@ namespace CapaBL
             return await HabitacionDAL.GetHabitacionAsync(habitacionEN);
         }
 
-        public async Task<List<HabitacionEN>> GetHabitacionENAsync()
+        public async Task<List<HabitacionEN>> GetAllAsync()
         {
-            return await HabitacionDAL.GetHabitacionENAsync();
+            return await HabitacionDAL.GetAllAsync();
         }
 
         public async Task<List<HabitacionEN>> SearchAsync(HabitacionEN habitacionEN)

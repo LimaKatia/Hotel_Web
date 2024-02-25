@@ -12,14 +12,12 @@ namespace CapaDAL
     {
 
         public DbSet<HabitacionEN> Habitacion { get; set; }
-
-        //public DbSet<SalonEN> Salon { get; set; }
-
+        public DbSet<EstadoEN> state { get; set; }
+        public DbSet<TipoHabitacionEN> TipoDeHabitacion { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Data Source=.;Initial Catalog=Hotel_Agape;Integrated Security=True; Encrypt = false;
-                TrustServerCertificate = True");
+            optionsBuilder.UseSqlServer(@"Data Source=.;Initial Catalog=Hotel_Agape;Integrated Security=True;Encrypt=false;TrustServerCertificate=True");
         }
     }
 }
