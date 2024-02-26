@@ -1,0 +1,43 @@
+﻿@model CapaEN.HabitacionEN
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<div class="container mt-5">
+    <h1 style="font-size:1.5rem" class="text-center mb-4">¿Deseas eliminar este dato?</h1>
+    <div class="card">
+        <div class="card-header">
+            <h3 class="text-center">Habitaciones</h3>
+        </div>
+        <div class="card-body ">
+            <dl class="row">
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.NumeroDeHabitacion)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.NumeroDeHabitacion)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.state.Nombre)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.state.Nombre)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.TipoDeHabitacion.Nombre)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.TipoDeHabitacion.Nombre)
+                </dd>
+               
+            </dl>
+            <form asp-action="Delete" class="mt-4">
+                <input type="submit" value="Eliminar" class="btn btn-danger me-3" /> 
+                <a asp-action="Index" class="btn btn-primary">
+                    <i class="fas fa-arrow-left"></i> Regresar
+                </a>
+            </form>
+        </div>
+    </div>
+</div>
