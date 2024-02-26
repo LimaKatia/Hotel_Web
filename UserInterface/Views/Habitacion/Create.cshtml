@@ -1,0 +1,56 @@
+﻿@model CapaEN.HabitacionEN
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Agregar un nueva habitación</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="NumeroDeHabitacion" class="control-label"></label>
+                <input asp-for="NumeroDeHabitacion" class="form-control" />
+                <span asp-validation-for="NumeroDeHabitacion" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-3">
+                <label asp-for="Precio" class="control-label"></label>
+                <input asp-for="Precio" class="form-control" />
+                <span asp-validation-for="Precio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdEstado" class="control-label"></label>
+                <select asp-for="IdEstado" class="form-control" asp-items="ViewBag.IdEstado">
+                    <option value="1">Disponible </option>
+                    <option value="2">Ocupado </option>
+                </select>
+                <span asp-validation-for="IdEstado" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-3">
+                <label asp-for="IdTipoDeHabitacion" class="control-label"></label>
+                <select asp-for="IdTipoDeHabitacion" class="form-control" asp-items="ViewBag.IdEstado">
+                    <option value="1">Personal </option>
+                    <option value="2">Matrimonial </option>
+                </select>                <span asp-validation-for="IdTipoDeHabitacion" class="text-danger"></span>
+            </div>
+
+            
+            <div class="form-group mt-4">
+                <input type="submit" value="Guardar" class="btn btn-primary me-3" />
+                
+                    <a asp-action="Index" class="btn btn-primary">
+                        <i class="fas fa-arrow-left"></i> Regresar
+                    </a>
+            </div>
+        </form>
+    </div>
+</div>
+<br />
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
