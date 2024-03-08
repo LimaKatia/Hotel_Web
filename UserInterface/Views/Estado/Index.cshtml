@@ -1,0 +1,122 @@
+﻿@model IEnumerable<CapaEN.EstadoEN>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 class="text-center mb-4">Lista de estados</h1>
+
+<div class="col-md-4 m-2">
+@*    asp-action="Create"*@
+    <a  id="btnNuevo" class="btn btn-outline-primary">Nuevo estado</a>
+</div>
+<table class="table" id="btnEstado">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.ActionLink( "Modificar", "Edit", new { id = item.Id }, new { @class = "btn btn-outline-info " })
+                @Html.ActionLink("Detalles", "Datils", new { id = item.Id }, new { @class = "btn btn-outline-secondary" })
+                @Html.ActionLink("Eliminar", "Delete", new { id = item.Id }, new { @class = "btn btn-outline-danger"})
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<!--INICIO DE LA TARJETA-->
+<div class="modal " tabindex="-1">
+    <div class="modal-dialog">  
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-center mb-4"> Nuevo estado </h5>
+               <button class="btn-close" data-bs-dismiss="modal" arial-label="close"></button>
+           </div>
+            <div class="modal-body">
+                <input type="hidden" id="txtId" value="0" />
+                    <div class="form-group mb-2">
+                    <label class="control-label">Nombre</label>
+                            <input type="text" class="from-control" id="txtNombre" />
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btnGuardar">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        const Modelo_base =
+        {
+            Id: 0,
+            Nombre: ""
+        }
+        $(document).ready(() => {
+            listaEstados();
+        })
+
+        function mostrarModal(model) {
+            $("#txtId").val(model.Id);
+            $("#txtNombre").val(model.Nombre);
+            $('.modal').modal('show');
+        }
+        $('#btnNuevo').click(function () {
+            mostrarModal(Modelo_base);
+        });
+        $("#btnGuardar").click(() => {
+            let NuevoModelo = Modelo_base;
+            NuevoModelo["Id"] = $("#txtId").val();
+            NuevoModelo["Nombre"] = $("#txtNombre").val();
+            if ($("#txtId").val() == "0") {
+                fetch("/Estado/Insertar", {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json;charset=utf-8'
+                    },
+                    body: JSON.stringify(NuevoModelo)
+                })
+                    .then((response) => {
+                        return response.ok ? response.json() : Promise.reject(response)
+                    })
+                    .then((dataJson) => {
+
+                        if (dataJson.valor) {
+                            alert("Registrado")
+                            $('.modal').modal('hide');
+                            listaEstados()
+                        }
+                    })
+            }
+        });
+
+        function listaEstados() {
+            fetch("Home/index")
+                .then((response) => {
+                    return response.ok ? response.json() : Promise.reject(response)
+                })
+                .then((dataJson) => {
+                    $("#btnEstado").html("");
+                })
+        }
+    </script>
+}

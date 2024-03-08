@@ -10,16 +10,15 @@ using System.Threading.Tasks;
 namespace CapaDAL
 {
     public class HabitacionDAL
-    { 
-
-
+    {  
         public static async Task<int> CreateHabitacion(HabitacionEN habitacion)
         {
             int result = 0;
             using (var dbContext = new ContextDB())
             {
-                dbContext.Add(habitacion);
-                 await dbContext.SaveChangesAsync();
+                // Agregar la nueva habitación
+                dbContext.Habitacion.Add(habitacion);
+                await dbContext.SaveChangesAsync();
             }
             return result;
         }

@@ -36,7 +36,7 @@ namespace CapaDAL
             return 0;
         }
 
-        public static async Task<int> DeleyeTipo(TipoHabitacionEN TipoEN)
+        public static async Task<int> DeleteTipo(TipoHabitacionEN TipoEN)
         {
             using (var dbContext = new ContextDB())
             {
@@ -50,12 +50,53 @@ namespace CapaDAL
             return 0;
         }
 
-        public static async Task<TipoHabitacionEN> GetTipoAsync(TipoHabitacionEN tipoEN)
+        public static async Task<TipoHabitacionEN> GetByIdAsync(TipoHabitacionEN tipo)
         {
+            var tipoDB = new TipoHabitacionEN();
             using (var dbContext = new ContextDB())
             {
-                return await dbContext.TipoDeHabitacion.FirstOrDefaultAsync(h => h.Id == tipoEN.Id);
+                tipoDB = await dbContext.TipoDeHabitacion.FirstOrDefaultAsync(t => t.Id == tipo.Id);
+
             }
+            return tipoDB;
+        }
+
+        public static async Task<List<TipoHabitacionEN>> GetAllAsync()
+        {
+            var habitaciones = new List<TipoHabitacionEN>();
+            using (var dbContext = new ContextDB())
+            {
+                habitaciones = await dbContext.TipoDeHabitacion.ToListAsync();
+            }
+            return habitaciones;
+        }
+
+        internal static IQueryable<TipoHabitacionEN> QuerySelect(IQueryable<TipoHabitacionEN> query, TipoHabitacionEN tipo)
+        {
+            if (tipo.Id > 0)
+                query = query.Where(r => r.Id == tipo.Id);
+
+            if (!string.IsNullOrWhiteSpace(tipo.Nombre))
+                query = query.Where(r => r.Nombre.Contains(tipo.Nombre));
+
+            query = query.OrderByDescending(r => r.Id).AsQueryable();
+
+            if (tipo.Top_Aux > 0)
+                query = query.Take(tipo.Top_Aux).AsQueryable();
+
+            return query;
+        }
+
+        public static async Task<List<TipoHabitacionEN>> SearchAsync(TipoHabitacionEN tipo)
+        {
+            var tipos = new List<TipoHabitacionEN>();
+            using (var dbContext = new ContextDB())
+            {
+                var select = dbContext.TipoDeHabitacion.AsQueryable();
+                select = QuerySelect(select, tipo);
+                tipos = await select.ToListAsync();
+            }
+            return tipos;
         }
     }
 }

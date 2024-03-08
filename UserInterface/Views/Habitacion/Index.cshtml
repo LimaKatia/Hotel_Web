@@ -1,5 +1,4 @@
 ﻿@model IEnumerable<CapaEN.HabitacionEN>
-
 <div class="row">
     <h1 class="text-center mb-4">Lista de habitaciones</h1>
       
@@ -7,11 +6,10 @@
                 <a asp-action="Create" class="btn btn-outline-primary">Nueva categoría</a>
         </div>
 </div>
-
-<div class="container mt-5">
-    <table class="table table-striped">
+<div class="container mt-3">
+    <table class="table table-striped mb-3">
         <thead>
-            <tr class="text-center mb-4">
+            <tr class="text-center ">
                 <th>
                     @Html.DisplayNameFor(model => model.NumeroDeHabitacion)
                 </th>
@@ -26,7 +24,6 @@
                     <!-- Asume que TipoDeHabitacion tiene un atributo llamado Nombre -->
                     @Html.DisplayNameFor(model => model.TipoDeHabitacion.Nombre)
                 </th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -46,6 +43,11 @@
                     <td>
                         <!-- Asume que TipoDeHabitacion tiene un atributo llamado Nombre -->
                         @Html.DisplayFor(modelItem => item.TipoDeHabitacion.Nombre)
+                    </td>
+                    <td>
+                        @Html.ActionLink( "Modificar", "Edit", new { id = item.Id }, new { @class = "btn btn-outline-info " })
+                        @Html.ActionLink("Detalles", "Datils", new { id = item.Id }, new { @class = "btn btn-outline-secondary" })
+                        @Html.ActionLink("Eliminar", "Delete", new { id = item.Id }, new { @class = "btn btn-outline-danger"})
                     </td>
                 </tr>
             }

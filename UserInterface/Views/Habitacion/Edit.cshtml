@@ -1,18 +1,18 @@
 ﻿@model CapaEN.HabitacionEN
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edit";
 }
 
-<h1>Agregar un nueva habitación</h1>
+<h1 class="text-center mb-4">Editar Una Habitación</h1>
 
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <div class="form-group">
+            <div class="form-group mt-3">
                 <label asp-for="NumeroDeHabitacion" class="control-label"></label>
                 <input asp-for="NumeroDeHabitacion" class="form-control" />
                 <span asp-validation-for="NumeroDeHabitacion" class="text-danger"></span>
@@ -29,22 +29,20 @@
             </div>
             <div class="form-group mt-3">
                 <label asp-for="IdTipoDeHabitacion" class="control-label"></label>
-                @Html.DropDownListFor(model => model.IdTipoDeHabitacion, ViewBag.Tipos as SelectList, "Selecciona un tipo de habitación", new { @class = "form-control" })                <span asp-validation-for="IdTipoDeHabitacion" class="text-danger"></span>
+                @Html.DropDownListFor(model => model.IdTipoDeHabitacion, ViewBag.tipos as SelectList, "Selecciona un tipo de habitación", new { @class = "form-control" })
                 <span asp-validation-for="IdTipoDeHabitacion" class="text-danger"></span>
             </div>
 
-            
             <div class="form-group mt-4">
                 <input type="submit" value="Guardar" class="btn btn-primary me-3" />
-                
-                    <a asp-action="Index" class="btn btn-primary">
-                        <i class="fas fa-arrow-left"></i> Regresar
-                    </a>
+
+                <a asp-action="Index" class="btn btn-primary">
+                    <i class="fas fa-arrow-left"></i> Regresar
+                </a>
             </div>
         </form>
     </div>
 </div>
-<br />
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

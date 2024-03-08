@@ -11,7 +11,7 @@ namespace CapaEN
     public class HabitacionEN
     {
         [Key]
-        public byte Id { get; set; }
+        public int Id { get; set; }
 
         [Required(ErrorMessage = "El Numero de Habitación es requerido")]
         [Display(Name = "Numero de Habitación")]
@@ -23,16 +23,17 @@ namespace CapaEN
         [Required(ErrorMessage = "El Tipo de estado es Requerido")]
         [ForeignKey("state")]
         [Display(Name = "Estado")]
-        public byte IdEstado { get; set; }
+        public int IdEstado { get; set; }
 
         [Required(ErrorMessage = "El Tipo de Habitación es requerido")]
         [ForeignKey("TipoDeHabitacion")]
         [Display(Name = "Tipo de Habitación")]
-        public byte IdTipoDeHabitacion { get; set; }
+        public int IdTipoDeHabitacion { get; set; }
 
         [NotMapped]
         public int Top_Aux { get; set; }
-        public EstadoEN state { get; set; }
-        public TipoHabitacionEN TipoDeHabitacion { get;set;}
+
+        public EstadoEN? state { get; set; } 
+        public TipoHabitacionEN? TipoDeHabitacion { get; set; } 
     }
 }

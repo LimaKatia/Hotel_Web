@@ -14,7 +14,30 @@ namespace CapaBL
         {
             return await TipoHabitacionDAL.CreateTipo(habitacionEN);
         }
+        public async Task<int> UpdateAsync(TipoHabitacionEN role)
+        {
+            return await TipoHabitacionDAL.UpdateTipo(role);
+        }
 
-       
+        public async Task<int> DeleteAsync(TipoHabitacionEN role)
+        {
+            return await TipoHabitacionDAL.DeleteTipo(role);
+        }
+
+        public async Task<TipoHabitacionEN> GetByIdAsync(TipoHabitacionEN role)
+        {
+            return await TipoHabitacionDAL.GetByIdAsync(role);
+        }
+
+        public async Task<List<TipoHabitacionEN>> GetAllAsync()
+        {
+            return await TipoHabitacionDAL.GetAllAsync();
+        }
+
+        public async Task<List<TipoHabitacionEN>> SearchAsync(TipoHabitacionEN role)
+        {
+            return await TipoHabitacionDAL.SearchAsync(role);
+        }
+
     }
 }
