@@ -20,24 +20,43 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex ">
                     <ul class="navbar-nav flex-grow-1">
+
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Administrador"))
+                        {
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Habitacion" asp-action="Index">Habitaciones</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Estado" asp-action="Index">Tipo de Estado</a>
-                        </li>
-                        <li class="nav-item font-monospace align-items-end">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Role" asp-action="Index">Role</a>
-                        </li>
-                        <li class="nav-item font-monospace align-items-end">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Logout">Cerrar sesion</a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Habitacion" asp-action="Index">Habitaciones</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Estado" asp-action="Index">Tipo de Estado</a>
+                            </li>
+                            <li class="nav-item font-monospace align-items-end">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Role" asp-action="Index">Role</a>
+                            </li>
+                            <li class="nav-item font-monospace align-items-end">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Logout">Cerrar sesion</a>
+                            </li>
+                        }
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Cliente"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Habitacion" asp-action="Index">Habitaciones</a>
+                            </li>
+                            <li class="nav-item font-monospace align-items-end">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Logout">Cerrar sesion</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
