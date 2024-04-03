@@ -10,7 +10,8 @@ using UserInterface.Helpers;
 
 namespace UserInterface.Controllers
 {
-    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Administrador, Cliente")]
+
     public class HabitacionController : Controller
     {
         HabitacionBL HabitacionBL = new HabitacionBL();
@@ -18,6 +19,7 @@ namespace UserInterface.Controllers
         TipoHabitacionBL tipoBL = new TipoHabitacionBL();
         ImageBL imageBL = new ImageBL();
 
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Index(HabitacionEN Habitacion = null)
         {
             if (Habitacion == null)
@@ -31,7 +33,22 @@ namespace UserInterface.Controllers
             ViewBag.Top = Habitacion.Top_Aux;
             return View(habitacion);
         }
+        public async Task<IActionResult> ViewUser(HabitacionEN Habitacion = null)
+        {
+            if (Habitacion == null)
+                Habitacion = new HabitacionEN();
+            if (Habitacion.Top_Aux == 0)
+                Habitacion.Top_Aux = 10;
+            else if (Habitacion.Top_Aux == -1)
+                Habitacion.Top_Aux = 0;
 
+            var habitacion = await HabitacionBL.SearchAsync(Habitacion);
+            ViewBag.Top = Habitacion.Top_Aux;
+            return View(habitacion);
+        }
+
+
+        [Authorize(Roles = "Administrador, Cliente")]
         public async Task<IActionResult> Datils(int id)
         {
             var habitacion = await HabitacionBL.GetHabitacionAsync(new HabitacionEN { Id = id });
@@ -39,7 +56,7 @@ namespace UserInterface.Controllers
             return View(habitacion);
         }
 
-
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Create()
         {
             var estados = await estadoBL.GetAllAsync();
@@ -49,6 +66,8 @@ namespace UserInterface.Controllers
             ViewBag.Tipo = tipos;
             return View();
         }
+
+        [Authorize(Roles = "Administrador")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(HabitacionEN habitacion, List<IFormFile> formFiles)
@@ -79,7 +98,7 @@ namespace UserInterface.Controllers
             }
         }
 
-
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Edit(int id)
         {
 
@@ -93,6 +112,7 @@ namespace UserInterface.Controllers
             return View(estados);
         }
 
+        [Authorize(Roles = "Administrador")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, HabitacionEN Habitacion)
@@ -109,13 +129,14 @@ namespace UserInterface.Controllers
             }
         }
 
-        ///////////////////////ELIMINAR////////////////////
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Delete(int id)
         {
             var Habitacion = await HabitacionBL.GetHabitacionAsync(new HabitacionEN { Id = id });
             ViewBag.Error = "";
             return View(Habitacion);
         }
+        [Authorize(Roles = "Administrador")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id, HabitacionEN habitacion)

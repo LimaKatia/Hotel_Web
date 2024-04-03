@@ -1,5 +1,7 @@
 ﻿using CapaBL;
 using CapaEN;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Routing.Constraints;
@@ -7,6 +9,8 @@ using UserInterface.Helpers;
 
 namespace UserInterface.Controllers
 {
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Administrador, Cliente")]
+
     public class SalonController : Controller
     {
         SalonBL SalonBL = new SalonBL();
@@ -14,6 +18,7 @@ namespace UserInterface.Controllers
         TipoDeSalonBL tipodesalonBL = new TipoDeSalonBL();
         ImagenSalonBL imageBL = new ImagenSalonBL();
 
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Index(SalonEN salon = null)
         {
             if (salon == null)
@@ -28,7 +33,24 @@ namespace UserInterface.Controllers
             return View(salones);
         }
 
+        [Authorize(Roles = "Cliente")]
+        public async Task<IActionResult> ViewSalon(SalonEN salon = null)
+        {
+            if (salon == null)
+                salon = new SalonEN();
+            if (salon.Top_Aux == 0)
+                salon.Top_Aux = 10;
+            else if (salon.Top_Aux == -1)
+                salon.Top_Aux = 0;
+
+            var salones = await SalonBL.SearchAsync(salon);
+            ViewBag.Top = salon.Top_Aux;
+            return View(salones);
+        }
+
         // GET: SalonController/Details/5
+
+        [Authorize(Roles = "Administrador, Cliente")]
         public async Task<IActionResult> Datils(int id)
         {
             var salon = await SalonBL.GetSalonAsync(new SalonEN { Id = id });
@@ -37,6 +59,7 @@ namespace UserInterface.Controllers
         }
 
         // GET: SalonController/Create
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Create()
         {
             var estados = await estadoBL.GetAllAsync();
@@ -48,6 +71,7 @@ namespace UserInterface.Controllers
         }
 
         // POST: SalonController/Create
+        [Authorize(Roles = "Administrador")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(SalonEN salon, List<IFormFile> formFiles)
@@ -79,6 +103,7 @@ namespace UserInterface.Controllers
         }
 
         // GET: SalonController/Edit/5
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Edit(int id)
         {
             List<EstadoEN> estados = await estadoBL.GetAllAsync();
@@ -92,6 +117,7 @@ namespace UserInterface.Controllers
         }
 
         // POST: SalonController/Edit/5
+        [Authorize(Roles = "Administrador")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, SalonEN Salon)
@@ -109,6 +135,7 @@ namespace UserInterface.Controllers
         }
 
         // GET: SalonController/Delete/5
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Delete(int id)
         {
             var Salon = await SalonBL.GetSalonAsync(new SalonEN { Id = id });
@@ -117,6 +144,7 @@ namespace UserInterface.Controllers
         }
 
         // POST: SalonController/Delete/5
+        [Authorize(Roles = "Administrador")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id, SalonEN salon)

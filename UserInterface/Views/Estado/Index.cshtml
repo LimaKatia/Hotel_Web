@@ -129,6 +129,7 @@
                     <input type="text" class="form-control" id="txtNombre" />
                     </div>
             </div>
+            <div id="alertContainer"></div>
             <div class="modal-footer">
                 <span class="text-danger">@ViewBag.Error</span>
                 <button type="button" class="btn btn-primary" id="btnGuardar">Guardar</button>
@@ -138,56 +139,72 @@
     </div>
 </div>
 @section Scripts
-{
-    <script>
-        const Modelo_base =
-        {
-            Id: 0,
-            Nombre: ""
-        };
-        //MUESTRA EL FORMULARIO PARA CREAR UN NUEVO ESTADO
-        function mostrarModal(model) {
-            $("#txtId").val(model.Id);
-            $("#txtNombre").val(model.Nombre);
-            $('.modal').show();
-        }
-        function cerrar() {
-            $('.modal').hide();
-        }
-      $('#btnNuevo').click(function () {
-            mostrarModal(Modelo_base);
-        });
+{<script>
+    const Modelo_base = {
+        Id: 0,
+        Nombre: ""
+    };
 
-        $("#btnGuardar").click(() => {
-            let NuevoModelo = {
-                Id: $("#txtId").val(),
-                Nombre: $("#txtNombre").val()
-            };
-            // if (NuevoModelo.Nombre.trim() === "")
-            //    alert("Por favor, ingrese un nombre para el estado")
-            // return;
-            if (NuevoModelo.Id === "0") {
-                fetch("/Estado/Insertar", {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json;charset=utf-8'
-                    },
-                    body: JSON.stringify(NuevoModelo)
-                })
-                    .then((response) => {
-                        return response.ok ? response.json() : Promise.reject(response);
-                    })
-                    .then((dataJson) => {
-                        if (dataJson.valor) {
-                            window.location.href = "/Estado/Index";
-                            $('.modal').hide();
-                        }
-                    })
-                    .catch((error) => {
-                       alert ('Error al guardar:', error);
-                        window.location.href = "/Estado/Index";
-                    });
-            }
-        });
-    </script>
+    // Muestra el formulario para crear un nuevo estado
+    function mostrarModal(model) {
+        $("#txtId").val(model.Id);
+        $("#txtNombre").val(model.Nombre);
+        $('.modal').show();
+    }
+
+    function cerrar() {
+        $('.modal').hide();
+    }
+
+    $('#btnNuevo').click(function () {
+        mostrarModal(Modelo_base);
+    });
+
+    $("#btnGuardar").click(() => {
+        let NuevoModelo = {
+            Id: $("#txtId").val(),
+            Nombre: $("#txtNombre").val()
+        };
+
+        if (NuevoModelo.Id === "0") {
+            fetch("/Estado/Insertar", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify(NuevoModelo)
+            })
+            .then((response) => {
+                return response.ok ? response.json() : Promise.reject(response);
+            })
+            .then((dataJson) => {
+                if (dataJson.valor) {
+                    window.location.href = "/Estado/Index";
+                    $('.modal').hide();
+                }
+            })
+            .catch((error) => {
+                // Personalizar el mensaje de la alerta
+                const mensaje = "Ha ocurrido un error al guardar el estado. Inténtelo de nuevo más tarde.";
+
+                // Crear una alerta de Bootstrap con el mensaje personalizado
+                const alertElement = `
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Error al guardar:</strong> ${mensaje}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                `;
+
+                // Agregar la alerta al contenedor específico
+                document.getElementById('alertContainer').innerHTML = alertElement;
+
+                // Redireccionar después de un tiempo determinado
+                setTimeout(() => {
+                    window.location.href = "/Estado/Index";
+                }, 5000); // Redireccionar después de 5 segundos (5000 milisegundos)
+            });
+        }
+    });
+
+</script>
 }

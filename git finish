@@ -1,0 +1,77 @@
+[33mcommit f86042f02f32dafbfe1f055eb4c982f21c4149a6[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m)[m
+Author: Vasquez8 <dv113409@gmail.com>
+Date:   Wed Apr 3 14:36:30 2024 -0600
+
+    Actualizacion del sprint 2
+
+[33mcommit 19fe75171cd6a4242b9580fbd29e4efe9730693e[m[33m ([m[1;31morigin/master[m[33m)[m
+Author: Vasquez8 <dv113409@gmail.com>
+Date:   Mon Mar 11 13:50:57 2024 -0600
+
+    configuracion del layout
+
+[33mcommit 4d2150420e75cc2d2dbd82eed1136b96748fd8c5[m
+Author: Vasquez8 <dv113409@gmail.com>
+Date:   Sat Mar 9 19:26:16 2024 -0600
+
+    Solución de erro al inicio de sesión
+
+[33mcommit 0cdbe80e2b35736a3294858b746cc3db813ab220[m
+Author: Vasquez8 <dv113409@gmail.com>
+Date:   Fri Mar 8 06:21:28 2024 -0600
+
+    actualización del sprint 2
+
+[33mcommit 6f539b9905c93379d26cc302ccfb215063811c43[m
+Author: Vasquez8 <dv113409@gmail.com>
+Date:   Mon Feb 26 00:03:22 2024 -0600
+
+    Vista eliminar
+
+[33mcommit cedb35708cd43c9dced3c7bfb4c426453452dcb6[m
+Author: Vasquez8 <dv113409@gmail.com>
+Date:   Mon Feb 26 00:02:38 2024 -0600
+
+    Vista detalle
+
+[33mcommit 24ef21a973234c4163b17c0124df1be9334f0c54[m
+Author: Vasquez8 <dv113409@gmail.com>
+Date:   Sun Feb 25 22:12:53 2024 -0600
+
+    Create
+
+[33mcommit 4649d9edbb134bd9c1030d31406f6de638d0d0b6[m
+Author: Vasquez8 <dv113409@gmail.com>
+Date:   Sun Feb 25 21:42:45 2024 -0600
+
+    link para el icono
+
+[33mcommit f0f86dbea4626903d87f4416914d98fb6711bf7a[m
+Author: Vasquez8 <dv113409@gmail.com>
+Date:   Sun Feb 25 16:01:10 2024 -0600
+
+    lista de cambios
+
+[33mcommit 101463f71e681b95c557ffb8f3bf8020995e0975[m
+Author: Vasquez8 <dv113409@gmail.com>
+Date:   Sun Feb 25 15:55:07 2024 -0600
+
+    camibios en la entidades
+
+[33mcommit 508ecb3d1f9ef4ec56526f741d51dd3657e503eb[m
+Author: Vasquez8 <dv113409@gmail.com>
+Date:   Sat Feb 24 16:30:31 2024 -0600
+
+    Creación de la clase Entidad EstadoEN
+
+[33mcommit db23d875afc821555be2ae091408afccf4bbd7b9[m
+Author: Vasquez8 <dv113409@gmail.com>
+Date:   Fri Feb 23 22:36:21 2024 -0600
+
+    Agregar archivos de proyecto.
+
+[33mcommit e31219cd00b67a9ad09bb0cd2252bb5b1b1ddd6e[m
+Author: Vasquez8 <dv113409@gmail.com>
+Date:   Fri Feb 23 22:36:17 2024 -0600
+
+    Agregar .gitattributes y .gitignore.

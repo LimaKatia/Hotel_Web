@@ -1,0 +1,56 @@
+﻿@model IEnumerable<CapaEN.SalonEN>
+
+@{
+    ViewData["Title"] = "ViewSalon";
+}
+
+<h1>ViewSalon</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NombreSalon)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Precio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.state.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TipoDeSalon.Nombre)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NombreSalon)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Precio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.state.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TipoDeSalon.Nombre)
+            </td>
+            <td>
+
+                    @Html.ActionLink("Detalles", "Datils", new { id = item.Id }, new { @class = "btn btn-outline-secondary" })
+
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
