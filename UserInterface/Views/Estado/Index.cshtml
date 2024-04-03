@@ -1,68 +1,142 @@
 ﻿@model IEnumerable<CapaEN.EstadoEN>
-
+@using CapaEN;
 @{
     ViewData["Title"] = "Index";
+    int numPage = 1;
+    int numRegistros = 0;
+    int numRegistrosPorPage = 10;
+    int[] tops = { 10, 20, 50, 100, 500, 1000, 10000, -1 };
+    int topActual = Convert.ToInt32(ViewBag.Top);
 }
-
 <h1 class="text-center mb-4">Lista de estados</h1>
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Index">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Nombre</label>
+                        <input type="text" class="form-control" name="Nombre" />
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">Top</label>
+                        <select name="Top_Aux" class="form-control col-md-2">
+                            @foreach (var item in tops)
+                            {
+                                string strItem = item != -1 ? item.ToString() : "Todos";
+                                if (item != topActual)
+                                {
+                                    <option value="@item">@strItem</option>
+                                }
+                                else
+                                {
+                                    <option selected value="@item">@strItem</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 m-2 ">
+                <input type="submit" value="Buscar" class="btn btn-outline-info" /> &nbsp;&nbsp;
+            </div>
+        </form>
+    </div>
+</div>
 
 <div class="col-md-4 m-2">
-@*    asp-action="Create"*@
     <a  id="btnNuevo" class="btn btn-outline-primary">Nuevo estado</a>
 </div>
-<table class="table" id="btnEstado">
+@if (TempData["AlertMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible text-center">
+        @TempData["AlertMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+@if (TempData["AlertaMessage"] != null)
+{
+    <div class="alert alert-primary alert-dismissible fade show text-center" role="alert">
+        @TempData["AlertaMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+<span vlass="alert alert-primary text-center">@ViewBag.Alert</span>
+<table class="table table-responsive table-striped paginationjs" id="btnEstado">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Nombre)
             </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
+        <tr data-page="@numPage">
             <td>
                 @Html.DisplayFor(modelItem => item.Nombre)
             </td>
             <td>
-                @Html.ActionLink( "Modificar", "Edit", new { id = item.Id }, new { @class = "btn btn-outline-info " })
+                @Html.ActionLink( "Editar", "Edit", new { id = item.Id }, new { @class = "btn btn-outline-info " })
                 @Html.ActionLink("Detalles", "Datils", new { id = item.Id }, new { @class = "btn btn-outline-secondary" })
-                @Html.ActionLink("Eliminar", "Delete", new { id = item.Id }, new { @class = "btn btn-outline-danger"})
+                @Html.ActionLink("Eliminar", "Delete", new { id = item.Id }, new { @class = "btn btn-outline-danger btn-eliminar"})
             </td>
         </tr>
+            numRegistros++;
+            if (numRegistros == numRegistrosPorPage)
+            {
+                numPage++;
+                numRegistros = 0;
+            }
 }
+        @{
+            if (numRegistros == 0)
+            {
+                numPage--;
+            }
+        }
     </tbody>
 </table>
+@if (numPage > 1)
+{
+    <div class="row" style="overflow:auto">
+        <div class="col-md-12">
+            <ul class="pagination paginationjs" data-numpage="@numPage" data-pageactive="1">
+                <li class="page-item" data-typepage="Previous"><a class="page-link" href="#">Anterior</a></li>
+                @for (var i = 1; i <= numPage; i++)
+                {
+                    <li class="page-item" data-page="@i" data-typepage="Item"><a class="page-link" href="#">@i</a></li>
+                }
+                <li class="page-item" data-typepage="Next"><a class="page-link" href="#">Siguiente</a></li>
+            </ul>
+        </div>
+    </div>
+}
 <!--INICIO DE LA TARJETA-->
 <div class="modal " tabindex="-1">
     <div class="modal-dialog">  
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title text-center mb-4"> Nuevo estado </h5>
-               <button class="btn-close" data-bs-dismiss="modal" arial-label="close"></button>
            </div>
             <div class="modal-body">
                 <input type="hidden" id="txtId" value="0" />
                     <div class="form-group mb-2">
                     <label class="control-label">Nombre</label>
-                            <input type="text" class="from-control" id="txtNombre" />
+                    <input type="text" class="form-control" id="txtNombre" />
                     </div>
             </div>
             <div class="modal-footer">
+                <span class="text-danger">@ViewBag.Error</span>
                 <button type="button" class="btn btn-primary" id="btnGuardar">Guardar</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-secondary" onclick="cerrar()" data-bs-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
 </div>
-
 @section Scripts
 {
     <script>
@@ -70,24 +144,29 @@
         {
             Id: 0,
             Nombre: ""
-        }
-        $(document).ready(() => {
-            listaEstados();
-        })
-
+        };
+        //MUESTRA EL FORMULARIO PARA CREAR UN NUEVO ESTADO
         function mostrarModal(model) {
             $("#txtId").val(model.Id);
             $("#txtNombre").val(model.Nombre);
-            $('.modal').modal('show');
+            $('.modal').show();
         }
-        $('#btnNuevo').click(function () {
+        function cerrar() {
+            $('.modal').hide();
+        }
+      $('#btnNuevo').click(function () {
             mostrarModal(Modelo_base);
         });
+
         $("#btnGuardar").click(() => {
-            let NuevoModelo = Modelo_base;
-            NuevoModelo["Id"] = $("#txtId").val();
-            NuevoModelo["Nombre"] = $("#txtNombre").val();
-            if ($("#txtId").val() == "0") {
+            let NuevoModelo = {
+                Id: $("#txtId").val(),
+                Nombre: $("#txtNombre").val()
+            };
+            // if (NuevoModelo.Nombre.trim() === "")
+            //    alert("Por favor, ingrese un nombre para el estado")
+            // return;
+            if (NuevoModelo.Id === "0") {
                 fetch("/Estado/Insertar", {
                     method: "POST",
                     headers: {
@@ -96,27 +175,19 @@
                     body: JSON.stringify(NuevoModelo)
                 })
                     .then((response) => {
-                        return response.ok ? response.json() : Promise.reject(response)
+                        return response.ok ? response.json() : Promise.reject(response);
                     })
                     .then((dataJson) => {
-
                         if (dataJson.valor) {
-                            alert("Registrado")
-                            $('.modal').modal('hide');
-                            listaEstados()
+                            window.location.href = "/Estado/Index";
+                            $('.modal').hide();
                         }
                     })
+                    .catch((error) => {
+                       alert ('Error al guardar:', error);
+                        window.location.href = "/Estado/Index";
+                    });
             }
         });
-
-        function listaEstados() {
-            fetch("Home/index")
-                .then((response) => {
-                    return response.ok ? response.json() : Promise.reject(response)
-                })
-                .then((dataJson) => {
-                    $("#btnEstado").html("");
-                })
-        }
     </script>
 }

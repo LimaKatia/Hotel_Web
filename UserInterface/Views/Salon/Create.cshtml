@@ -1,26 +1,25 @@
 ﻿@using CapaEN;
-@model CapaEN.HabitacionEN
+@model CapaEN.SalonEN
 
 @{
     ViewData["Title"] = "Create";
     List<EstadoEN> estados = ViewBag.Estado as List<EstadoEN>;
-    List<TipoHabitacionEN> tipos = ViewBag.Tipo as List<TipoHabitacionEN>;
+    List<TipoDeSalonEN> tipos = ViewBag.Tipo as List<TipoDeSalonEN>;
 }
 
 <h1>Create</h1>
 
-<h4>HabitacionEN</h4>
+<h4>SalonEN</h4>
 <hr />
-<span class="text-danger">@ViewBag.Error</span>
+    <span class="text-danger">@ViewBag.Error</span>
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
             <div class="form-group">
-                <label asp-for="NumeroDeHabitacion" class="control-label"></label>
-                <input asp-for="NumeroDeHabitacion" class="form-control" />
-                <span asp-validation-for="NumeroDeHabitacion" class="text-danger"></span>
+                <label asp-for="NombreSalon" class="control-label"></label>
+                <input asp-for="NombreSalon" class="form-control" />
+                <span asp-validation-for="NombreSalon" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Precio" class="control-label"></label>
@@ -44,28 +43,29 @@
                 <span asp-validation-for="IdEstado" class="text-danger"></span>
             </div>
             <div class="form-group mt-3">
-                <label asp-for="IdTipoDeHabitacion" class="control-label"></label>
-                <select asp-for="IdTipoDeHabitacion" class="form-control">
-                            <option selected value="">SELECCIONAR</option>
+                <label asp-for="IdTipoDeSalon" class="control-label"></label>
+                <select asp-for="IdTipoDeSalon" class="form-control">
+                    <option selected value="">SELECCIONAR</option>
                     @foreach (var item in tipos)
                     {
                         <option value="@item.Id">@item.Nombre</option>
                     }
                 </select>
-                <span asp-validation-for="IdTipoDeHabitacion" class="text-danger"></span>
+                <span asp-validation-for="IdTipoDeSalon" class="text-danger"></span>
             </div>
             <div class="form-group mt-3">
                 <label class="control-label">Seleccione las imágenes</label>
                 <input type="file" name="formFiles" multiple />
             </div>
-            <div class="form-group mt-4  align-content-sm-between">
-                <input type="submit" value="Guardar" class="btn btn-primary me-3" />
-                    <a asp-action="Index" class="btn btn-primary">
-                        <i class="fas fa-arrow-left"></i> Regresar
-                    </a>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
+</div>
+
+<div>
+    <a asp-action="Index">Regresar</a>
 </div>
 
 @section Scripts
@@ -74,4 +74,3 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
-

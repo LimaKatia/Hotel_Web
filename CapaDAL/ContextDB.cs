@@ -15,6 +15,10 @@ namespace CapaDAL
         public DbSet<HabitacionEN> Habitacion { get; set; }
         public DbSet<EstadoEN> state { get; set; }
         public DbSet<TipoHabitacionEN> TipoDeHabitacion { get; set; }
+        public DbSet<ImageEN> ImageHabitacion { get; set; }
+        public DbSet<SalonEN> Salon { get; set; }
+        public DbSet<TipoDeSalonEN> TipoDeSalon { get; set; }
+        public DbSet<ImagenSalonEN> ImageSalon { get; set; }
 
         public DbSet<RoleEN> Role { get; set; }
         public DbSet<UserEN> User { get; set; }

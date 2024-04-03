@@ -15,11 +15,15 @@ namespace UserInterface.Controllers
         {
             if (Estado == null)
                 Estado = new EstadoEN();
+            if (Estado.Top_Aux == 0)
+                Estado.Top_Aux = 10;
+            else if (Estado.Top_Aux == -1)
+                Estado.Top_Aux = 0;
 
-            var estado = await estadoBL.SearchAsync(Estado);
-            return View(estado);
+            var estados = await estadoBL.SearchAsync(Estado);
+            ViewBag.Top = Estado.Top_Aux;
+            return View(estados);
         }
-
         public async Task<IActionResult> Datils(int id)
         {
             var Estado = await estadoBL.GetEstadoAsync(new EstadoEN { Id = id});
@@ -41,10 +45,9 @@ namespace UserInterface.Controllers
 
             };
             int respuesta = await EstadoBL.CreateState(NuevoModelo);
+            TempData["AlertaMessage"] = "Estado guardado exitosamente";
             return Json(new { valor = respuesta });
         }
-
-
         public async Task<IActionResult> Edit(int id)
         {
             var Estado = await estadoBL.GetEstadoAsync(new EstadoEN { Id = id });
@@ -74,19 +77,19 @@ namespace UserInterface.Controllers
             return View(Estado);
         }
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(int id, EstadoEN Estado)
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id, EstadoEN estado)
         {
             try
             {
-                int result = await estadoBL.DeleteEstado(Estado);
+                int result = await estadoBL.DeleteEstado(estado);
+                TempData["AlertMessage"] = "Estado eliminado exitosamente";
                 return RedirectToAction(nameof(Index));
-
             }
             catch (Exception ex)
             {
                 ViewBag.Error = ex.Message;
-                return View(Estado);
+                return View(estado);
 
             }
         }

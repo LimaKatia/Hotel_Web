@@ -48,7 +48,6 @@ namespace CapaEN
         [Display(Name = "Fecha de registro")]
         public DateTime RegistrationDate { get; set; }
 
-        ///--------------------------------------------------///
         [NotMapped]
         public int Top_Aux { get; set; }//propiedad auxiliar
 
@@ -58,7 +57,7 @@ namespace CapaEN
         [Compare("Password", ErrorMessage = "La contraseña no coinciden")]
         [StringLength(32, ErrorMessage = "La contraseña debe estar entre 6 y 32 caracteres", MinimumLength = 6)]
         [Display(Name = "Confirmar contraseña")]
-        public string ConfirmPassword_Aux { get; } = string.Empty; //propiedad auxiliar
+        public string ConfirmPassword_Aux { get; set; } = string.Empty; //propiedad auxiliar
         public RoleEN? Role { get; set; }//propiedad de navegación
     }
 

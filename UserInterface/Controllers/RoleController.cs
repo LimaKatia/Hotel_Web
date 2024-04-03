@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace UserInterface.Controllers
 {
-    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles ="Administrador")]
 
     public class RoleController : Controller
     {

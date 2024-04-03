@@ -1,4 +1,4 @@
-﻿@model CapaEN.HabitacionEN
+﻿@model CapaEN.SalonEN
 
 @{
     ViewData["Title"] = "Datils";
@@ -7,14 +7,14 @@
 <h1>Datils</h1>
 
 <div>
-    <h4>HabitacionEN</h4>
+    <h4>SalonEN</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NumeroDeHabitacion)
+            @Html.DisplayNameFor(model => model.NombreSalon)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NumeroDeHabitacion)
+            @Html.DisplayFor(model => model.NombreSalon)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Precio)
@@ -22,10 +22,10 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Precio)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Descripcion)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Descripcion)
         </dd>
         <dt class = "col-sm-2">
@@ -35,10 +35,10 @@
             @Html.DisplayFor(model => model.state.Nombre)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdTipoDeHabitacion)
+            @Html.DisplayNameFor(model => model.IdTipoDeSalon)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TipoDeHabitacion.Nombre)
+            @Html.DisplayFor(model => model.TipoDeSalon.Nombre)
         </dd>
         <div class="col-sm-8 offset-2">
             <div id="myCorousel" class="carousel slide">
@@ -55,7 +55,6 @@
                         }
                     }
                 </div>
-
                 <div class="carousel-inner">
                     @for (int i = 0; i < Model.image.Count(); i++)
                     {
@@ -89,5 +88,5 @@
 </div>
 <div>
     @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Regresar</a>
 </div>

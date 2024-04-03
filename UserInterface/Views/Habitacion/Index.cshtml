@@ -1,60 +1,59 @@
 ﻿@model IEnumerable<CapaEN.HabitacionEN>
-<div class="row">
-    <h1 class="text-center mb-4">Lista de habitaciones</h1>
-      
-        <div class="col-md-4 m-2">
-                <a asp-action="Create" class="btn btn-outline-primary">Nueva categoría</a>
-        </div>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 class="text-center">Lista de habitaciones</h1>
+
+<div class="form-group m-2">
+    <a asp-action="Create" class="btn btn-outline-primary">Nueva habitación</a>
 </div>
-<div class="container mt-3">
-    <table class="table table-striped mb-3">
-        <thead>
-            <tr class="text-center ">
-                <th>
-                    @Html.DisplayNameFor(model => model.NumeroDeHabitacion)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Precio)
-                </th>
-                <th>
-                    <!-- Asume que Estado tiene un atributo llamado Nombre -->
-                    @Html.DisplayNameFor(model => model.state.Nombre) 
-                </th>
-                <th>
-                    <!-- Asume que TipoDeHabitacion tiene un atributo llamado Nombre -->
-                    @Html.DisplayNameFor(model => model.TipoDeHabitacion.Nombre)
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr class="text-center mb-4">
-                    <td>
-                        @Html.DisplayFor(modelItem => item.NumeroDeHabitacion)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Precio)
-                    </td>
-                    <td>
-                        <!-- Asume que Estado tiene un atributo llamado Nombre -->
-                        @Html.DisplayFor(modelItem => item.state.Nombre)
-                    </td>
-                    <td>
-                        <!-- Asume que TipoDeHabitacion tiene un atributo llamado Nombre -->
-                        @Html.DisplayFor(modelItem => item.TipoDeHabitacion.Nombre)
-                    </td>
-                    <td>
-                        @Html.ActionLink( "Modificar", "Edit", new { id = item.Id }, new { @class = "btn btn-outline-info " })
-                        @Html.ActionLink("Detalles", "Datils", new { id = item.Id }, new { @class = "btn btn-outline-secondary" })
-                        @Html.ActionLink("Eliminar", "Delete", new { id = item.Id }, new { @class = "btn btn-outline-danger"})
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
-
-
-
-
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NumeroDeHabitacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Precio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.state.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TipoDeHabitacion.Nombre)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumeroDeHabitacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Precio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.state.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TipoDeHabitacion.Nombre)
+            </td>
+            <td>
+                @Html.ActionLink("Modificar", "Edit", new { id = item.Id }, new { @class = "btn btn-outline-info" })
+                @Html.ActionLink("Detalles", "Datils", new { id = item.Id }, new { @class = "btn btn-outline-secondary" })
+                @Html.ActionLink("Eliminar", "Delete", new { id = item.Id }, new { @class = "btn btn-outline-danger" })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using UserInterface.Helpers;
 
 namespace UserInterface.Controllers
 {
@@ -13,9 +14,9 @@ namespace UserInterface.Controllers
     public class HabitacionController : Controller
     {
         HabitacionBL HabitacionBL = new HabitacionBL();
-
         EstadoBL estadoBL = new EstadoBL();
         TipoHabitacionBL tipoBL = new TipoHabitacionBL();
+        ImageBL imageBL = new ImageBL();
 
         public async Task<IActionResult> Index(HabitacionEN Habitacion = null)
         {
@@ -33,66 +34,63 @@ namespace UserInterface.Controllers
 
         public async Task<IActionResult> Datils(int id)
         {
-            var Habitacion = await HabitacionBL.GetHabitacionAsync(new HabitacionEN { Id = id });
-            return View(Habitacion);
+            var habitacion = await HabitacionBL.GetHabitacionAsync(new HabitacionEN { Id = id });
+            habitacion.image = await imageBL.SearchAsync(new ImageEN() { IdHabitacion = habitacion.Id });
+            return View(habitacion);
         }
 
 
         public async Task<IActionResult> Create()
         {
-            try
-            {
-                // Obtine la lista de estados desde la base de datos
-                List<EstadoEN> estados = await estadoBL.GetAllAsync();
-                List<TipoHabitacionEN> tipo = await tipoBL.GetAllAsync();
+            var estados = await estadoBL.GetAllAsync();
+            var tipos = await tipoBL.GetAllAsync();
 
-                // Obtine la lista de estados desde la base de datos
-                ViewBag.Estados = new SelectList(estados, "Id", "Nombre");
-                ViewBag.Tipos = new SelectList(tipo, "Id", "Nombre");
-
-                return View();
-            }
-            catch (Exception ex)
-            {
-                ViewBag.Error = ex.Message;
-                return View();
-            }
+            ViewBag.Estado = estados;
+            ViewBag.Tipo = tipos;
+            return View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(HabitacionEN Habitacion)
+        public async Task<ActionResult> Create(HabitacionEN habitacion, List<IFormFile> formFiles)
         {
             try
             {
-                int result = await HabitacionBL.CreateHabitacion(Habitacion);
+           //Declaración de la lista para almacenar las imágenes
+                List<ImageEN> images = new List<ImageEN>();
+           //Recorremos en caso que venga dos o más imágenes
+                foreach (IFormFile file in formFiles)
+                {
+                    ImageEN imagen = new ImageEN();
+                    imagen.IdHabitacion = habitacion.Id;
+                    imagen.UrlImage = await ImgHelpers.SubirArchivo(file.OpenReadStream(), file.FileName);
+                    images.Add(imagen);
+                }
+
+                habitacion.image = images;
+                int result = await HabitacionBL.CreateHabitacion(habitacion);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
                 ViewBag.Error = ex.Message;
-                return View(Habitacion);
+                ViewBag.Estado = await estadoBL.GetAllAsync();
+                ViewBag.Tipo = await tipoBL.GetAllAsync();
+                return View(habitacion);
             }
         }
 
 
         public async Task<IActionResult> Edit(int id)
         {
-            try
-            {
-                List<EstadoEN> estados = await estadoBL.GetAllAsync();
-                List<TipoHabitacionEN> tipo = await tipoBL.GetAllAsync();
 
-                ViewBag.Estados = new SelectList(estados, "Id", "Nombre");
-                ViewBag.Tipos = new SelectList(tipo, "Id", "Nombre");
+            List<EstadoEN> estado = await estadoBL.GetAllAsync();
+            List<TipoHabitacionEN> tipo = await tipoBL.GetAllAsync();
+            var estados = await HabitacionBL.GetHabitacionAsync(new HabitacionEN { Id = id });
+            ViewBag.Error = "";
 
-                return View();
-            }
-            catch
-            {
-                var Habitacion = await HabitacionBL.GetHabitacionAsync(new HabitacionEN { Id = id });
-                ViewBag.Error = "";
-                return View(Habitacion);
-            }
+            ViewBag.Estados = new SelectList(estado, "Id", "Nombre");
+            ViewBag.Tipos = new SelectList(tipo, "Id", "Nombre");
+            return View(estados);
         }
 
         [HttpPost]
@@ -120,18 +118,27 @@ namespace UserInterface.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(int id, HabitacionEN Habitacion)
+        public async Task<IActionResult> Delete(int id, HabitacionEN habitacion)
         {
             try
             {
-                int result = await HabitacionBL.DeleteHabitacion(Habitacion);
-                return RedirectToAction(nameof(Index));
+                HabitacionEN habitacionDB = await HabitacionBL.GetHabitacionAsync(habitacion);
+                habitacionDB.image = await imageBL.SearchAsync(new ImageEN() { IdHabitacion = habitacionDB.Id });
+                if (habitacionDB.image.Count() > 0)
+                {
+                    foreach (var images in habitacionDB.image)
+                    {
+                        await imageBL.DeleteAsync(images);
+                    }
+                }
+                int result = await HabitacionBL.DeleteHabitacion(habitacion);
+                    return RedirectToAction(nameof(Index));
 
             }
             catch (Exception ex)
             {
                 ViewBag.Error = ex.Message;
-                return View(Habitacion);
+                return View(habitacion);
             }
         }
     }

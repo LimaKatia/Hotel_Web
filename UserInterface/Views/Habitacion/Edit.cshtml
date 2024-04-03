@@ -11,16 +11,22 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-            <div class="form-group mt-3">
-                <label asp-for="NumeroDeHabitacion" class="control-label"></label>
-                <input asp-for="NumeroDeHabitacion" class="form-control" />
-                <span asp-validation-for="NumeroDeHabitacion" class="text-danger"></span>
+            <div class="row">
+                <div class="form-group mt-3">
+                    <label asp-for="NumeroDeHabitacion" class="control-label"></label>
+                    <input asp-for="NumeroDeHabitacion" class="form-control" />
+                    <span asp-validation-for="NumeroDeHabitacion" class="text-danger"></span>
+                </div>
             </div>
             <div class="form-group mt-3">
                 <label asp-for="Precio" class="control-label"></label>
                 <input asp-for="Precio" class="form-control" />
                 <span asp-validation-for="Precio" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-3">
+                <label asp-for="Descripcion" class="control-label"></label>
+                <input asp-for="Descripcion" class="form-control" />
+                <span asp-validation-for="Descripcion" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="IdEstado" class="control-label"></label>

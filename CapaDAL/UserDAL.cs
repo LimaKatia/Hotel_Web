@@ -30,11 +30,8 @@ namespace CapaDAL
             bool result = false;
             var userLoginExists = await dbContext.User.FirstOrDefaultAsync(u => u.Login == user.Login && u.Id != user.Id);
             if (userLoginExists != null && userLoginExists.Id > 0 && userLoginExists.Login == user.Login)
-
                 result = true;
-
             return result;
-
         }
 
         public static async Task<int> CreateAsync(UserEN user)
