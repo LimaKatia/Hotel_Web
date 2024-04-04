@@ -1,0 +1,60 @@
+﻿@model CapaEN.SalonEN
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>SalonEN</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Id" class="control-label"></label>
+                <input asp-for="Id" class="form-control" />
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NombreSalon" class="control-label"></label>
+                <input asp-for="NombreSalon" class="form-control" />
+                <span asp-validation-for="NombreSalon" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Precio" class="control-label"></label>
+                <input asp-for="Precio" class="form-control" />
+                <span asp-validation-for="Precio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Descripcion" class="control-label"></label>
+                <textarea asp-for="Descripcion" class="form-control"></textarea>
+                <span asp-validation-for="Descripcion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdEstado" class="control-label"></label>
+                <input asp-for="IdEstado" class="form-control" />
+                <span asp-validation-for="IdEstado" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdTipoDeSalon" class="control-label"></label>
+                <input asp-for="IdTipoDeSalon" class="form-control" />
+                <span asp-validation-for="IdTipoDeSalon" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Top_Aux" class="control-label"></label>
+                <input asp-for="Top_Aux" class="form-control" />
+                <span asp-validation-for="Top_Aux" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
