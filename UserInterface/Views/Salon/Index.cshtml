@@ -2,19 +2,58 @@
 
 @{
     ViewData["Title"] = "Index";
+    int numPage = 1;
+    int numRegistros = 0;
+    int numRegistrosPorPage = 10;
+    int[] tops = { 10, 20, 50, 100, 500, 1000, 10000, -1 };
+    int topActual = Convert.ToInt32(ViewBag.Top);
 }
 
-<h1>Index</h1>
+<h1>Lista de salones</h1>
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Index">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Nombre</label>
+                        <input type="text" class="form-control" name="Nombre" />
+                    </div>
+                </div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">Top</label>
+                        <select name="Top_Aux" class="form-control col-md-2">
+                            @foreach (var item in tops)
+                            {
+                                string strItem = item != -1 ? item.ToString() : "Todos";
+                                if (item != topActual)
+                                {
+                                    <option value="@item">@strItem</option>
+                                }
+                                else
+                                {
+                                    <option selected value="@item">@strItem</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 m-2 ">
+                <input type="submit" value="Buscar" class="btn btn-outline-info" /> &nbsp;&nbsp;
+            </div>
+        </form>
+    </div>
+</div>
+<div class="form-group m-2">
+    <a asp-action="Create" class="btn btn-outline-primary">Nueva salón</a>
+</div>
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
+           
             <th>
                 @Html.DisplayNameFor(model => model.NombreSalon)
             </th>
@@ -22,10 +61,10 @@
                 @Html.DisplayNameFor(model => model.Precio)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdEstado)
+                @Html.DisplayNameFor(model => model.state.Nombre)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdTipoDeSalon)
+                @Html.DisplayNameFor(model => model.TipoDeSalon.Nombre)
             </th>
             <th></th>
         </tr>
@@ -34,19 +73,16 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.NombreSalon)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Precio)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdEstado)
+                @Html.DisplayFor(modelItem => item.state.Nombre)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdTipoDeSalon)
+                @Html.DisplayFor(modelItem => item.TipoDeSalon.Nombre)
             </td>
             <td>
                     @Html.ActionLink("Modificar", "Edit", new { id = item.Id }, new { @class = "btn btn-outline-info" })
@@ -54,6 +90,33 @@
                     @Html.ActionLink("Eliminar", "Delete", new { id = item.Id }, new { @class = "btn btn-outline-danger" })
             </td>
         </tr>
+            numRegistros++;
+            if (numRegistros == numRegistrosPorPage)
+            {
+                numPage++;
+                numRegistros = 0;
+            }
 }
+        @{
+            if (numRegistros == 0)
+            {
+                numPage--;
+            }
+        }
     </tbody>
 </table>
+@if (numPage > 1)
+{
+    <div class="row" style="overflow:auto">
+        <div class="col-md-12">
+            <ul class="pagination paginationjs" data-numpage="@numPage" data-pageactive="1">
+                <li class="page-item" data-typepage="Previous"><a class="page-link" href="#">Anterior</a></li>
+                @for (var i = 1; i <= numPage; i++)
+                {
+                    <li class="page-item" data-page="@i" data-typepage="Item"><a class="page-link" href="#">@i</a></li>
+                }
+                <li class="page-item" data-typepage="Next"><a class="page-link" href="#">Siguiente</a></li>
+            </ul>
+        </div>
+    </div>
+}

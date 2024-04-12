@@ -2,9 +2,52 @@
 
 @{
     ViewData["Title"] = "Index";
+    int numPage = 1;
+    int numRegistros = 0;
+    int numRegistrosPorPage = 10;
+    int[] tops = { 10, 20, 50, 100, 500, 1000, 10000, -1 };
+    int topActual = Convert.ToInt32(ViewBag.Top);
 }
 
 <h1 class="text-center">Lista de habitaciones</h1>
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Index">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Número de habitación</label>
+                        <input type="text" class="form-control" name="NumeroDeHabitacion" />
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">Top</label>
+                        <select name="Top_Aux" class="form-control col-md-2">
+                            @foreach (var item in tops)
+                            {
+                                string strItem = item != -1 ? item.ToString() : "Todos";
+                                if (item != topActual)
+                                {
+                                    <option value="@item">@strItem</option>
+                                }
+                                else
+                                {
+                                    <option selected value="@item">@strItem</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 m-2 ">
+                <input type="submit" value="Buscar" class="btn btn-outline-info" /> &nbsp;&nbsp;
+            </div>
+        </form>
+    </div>
+</div>
 
 <div class="form-group m-2">
     <a asp-action="Create" class="btn btn-outline-primary">Nueva habitación</a>

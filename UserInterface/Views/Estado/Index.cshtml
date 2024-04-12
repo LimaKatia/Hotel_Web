@@ -52,14 +52,14 @@
 </div>
 @if (TempData["AlertMessage"] != null)
 {
-    <div class="alert alert-danger alert-dismissible text-center">
+    <div id="alertaDanger" class="alert alert-danger alert-dismissible text-center">
         @TempData["AlertMessage"]
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 }
 @if (TempData["AlertaMessage"] != null)
 {
-    <div class="alert alert-primary alert-dismissible fade show text-center" role="alert">
+    <div id="alertaPrimary" class="alert alert-primary alert-dismissible fade show text-center" role="alert">
         @TempData["AlertaMessage"]
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>

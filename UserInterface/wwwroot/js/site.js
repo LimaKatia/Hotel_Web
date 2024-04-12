@@ -46,3 +46,16 @@
         });
     }
 })();
+
+function cerrarAlertaDespuesDeTiempo(alertaId, tiempo) {
+    setTimeout(() => {
+        document.getElementById(alertaId).classList.add('fade'); // Agregar clase fade para animación de cierre
+        setTimeout(() => {
+            document.getElementById(alertaId).remove(); // Eliminar la alerta del DOM después de la animación
+        }, 500); // 500 milisegundos para que termine la animación de cierre
+    }, tiempo); // Tiempo en milisegundos antes de cerrar la alerta automáticamente
+}
+
+// Llamar a la función para cerrar la alerta después de 5 segundos (5000 milisegundos)
+cerrarAlertaDespuesDeTiempo('alertaDanger', 3000); // Para la alerta de Danger
+cerrarAlertaDespuesDeTiempo('alertaPrimary', 3000); // Para la alerta de Primary
